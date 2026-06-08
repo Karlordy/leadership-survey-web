@@ -162,7 +162,7 @@ async function submit() {
         name,
         company,
         answers_raw: answers,     // 包含小数
-        questions_version: "v1",
+        questions_version: DATA?.model_version || "v1",
         scale_step: 0.5,
       })
     });
