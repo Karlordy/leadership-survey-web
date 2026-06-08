@@ -1,0 +1,22 @@
+# Secrets and environment-specific frontend config
+.env
+.env.*
+frontend/config.js
+
+# Supabase local/cache files
+supabase/.temp/
+
+# Local payloads and generated outputs
+payload.json
+*.log
+tmp/
+dist/
+output/
+
+# Dependencies, if introduced later
+node_modules/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/

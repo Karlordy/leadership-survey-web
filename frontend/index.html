@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>圆桌经营会｜开始测评</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script defer src="./config.js"></script>
+  <script defer>
+    function norm(s){ return (s||"").trim(); }
+    window.addEventListener("DOMContentLoaded", ()=>{
+      const nameEl = document.getElementById("name");
+      const companyEl = document.getElementById("company");
+      const errEl = document.getElementById("err");
+      const btn = document.getElementById("startBtn");
+
+      btn.addEventListener("click", ()=>{
+        errEl.textContent = "";
+        const name = norm(nameEl.value);
+        const company = norm(companyEl.value);
+        if(!name || !company){
+          errEl.textContent = "请填写真实姓名与公司名。";
+          return;
+        }
+        sessionStorage.setItem("rt_name", name);
+        sessionStorage.setItem("rt_company", company);
+        window.location.href = "./survey.html";
+      });
+    });
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-left"></div>
+
+      <div class="brand-center">
+        <div class="brand-block">
+          <img class="logo" src="./assets/logo.png" alt="圆桌经营会" />
+          <div class="brand-text">
+            <div class="brand-title">圆桌经营会</div>
+            <div class="brand-sub">企业家领导力测评（63题）</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-right"></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1 class="h1">开始测评</h1>
+      <div class="muted">请填写真实信息后开始作答。问卷提交后，请联系你的圆桌教练获取评估报告。</div>
+
+      <div class="form">
+        <div>
+          <div class="label">真实姓名</div>
+          <input id="name" class="input" placeholder="请输入真实姓名" />
+        </div>
+        <div>
+          <div class="label">公司名</div>
+          <input id="company" class="input" placeholder="请输入公司名" />
+        </div>
+      </div>
+
+      <div class="toolbar mt">
+        <button id="startBtn" class="btn primary" style="width:100%">开始测评</button>
+      </div>
+
+      <div class="muted small mt">说明：同一「姓名+公司」最多提交 2 次；评估报告在后台生成，由教练下载并提供解读。</div>
+      <div id="err" class="err"></div>
+    </section>
+  </main>
+</body>
+</html>

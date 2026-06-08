@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>圆桌经营会｜领导力测评报告（模板B-对齐版V2）</title>
+    <style>
+      :root{
+        --ink:#0f172a;
+        --muted:#64748b;
+        --line:#e2e8f0;
+        --bg:#ffffff;
+        --soft:#f8fafc;
+        --soft2:#f1f5f9;
+        --accent:#7c3aed;
+        --danger:#dc2626;
+        --success:#16a34a;
+
+        /* ✅ 新增：强调色块（非常浅，不抢视觉） */
+        --lowBg: rgba(220,38,38,.06);     /* 低分（能力项）浅红 */
+        --lowBd: rgba(220,38,38,.18);
+        --highBg: rgba(22,163,74,.06);    /* 高分（限制项）浅绿 */
+        --highBd: rgba(22,163,74,.18);
+      }
+      *{box-sizing:border-box;}
+      html,body{height:100%; background:#f1f5f9; color:var(--ink); margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",Arial,sans-serif;}
+      .page{
+        width: 210mm;
+        min-height: 297mm;
+        margin: 12mm auto;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        box-shadow: 0 12px 30px rgba(2,6,23,.08);
+        padding: 16mm 16mm 14mm 16mm;
+      }
+      .page + .page{ margin-top: 10mm; }
+
+      /* header */
+      .header{ display:flex; align-items:center; justify-content:space-between; padding-bottom:10mm; border-bottom:1px solid var(--line); }
+      .brand{ display:flex; gap:10px; align-items:center; }
+      .logo{
+        width:36px;height:36px;border-radius:10px;
+        background: linear-gradient(135deg, rgba(124,58,237,.25), rgba(124,58,237,.05));
+        border: 1px solid rgba(124,58,237,.25);
+        display:flex; align-items:center; justify-content:center;
+        color: var(--accent); font-weight: 900; letter-spacing:.5px;
+      }
+      .title h1{ margin:0; font-size:18px; letter-spacing:.4px; }
+      .title .sub{ margin-top:2px; font-size:12px; color: var(--muted); }
+      .meta{ text-align:right; font-size:12px; color: var(--muted); line-height:1.55; }
+      .meta b{ color: var(--ink); font-weight:700; }
+
+      /* info bar */
+      .infoBar{
+        margin-top: 10mm;
+        background: var(--soft);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 12px;
+        display:grid;
+        grid-template-columns: 1.1fr 1.4fr 1fr;
+        gap:10px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .infoBar .item b{ display:block; color:var(--ink); font-size:13px; margin-top:2px; }
+
+      /* layout：左大右窄（第一屏对齐用） */
+      .grid2{
+        display:grid;
+        grid-template-columns: 1.85fr 0.60fr;
+        gap: 6mm;
+        margin-top: 12mm;
+        align-items: stretch;
+      }
+
+      .card{ border:1px solid var(--line); border-radius:14px; padding:12px; background:#fff; }
+      .card h2{ margin:0 0 8px 0; font-size:13px; letter-spacing:.2px; }
+
+      /* radar */
+      .radarCard{ padding: 10px; }
+      .radarWrap{ height: 118mm; display:flex; align-items:center; justify-content:center; background:#fff; }
+      .radarInner{
+        width:100%;height:100%;
+        border: 1px dashed rgba(148,163,184,.9);
+        border-radius:14px;
+        display:flex; align-items:center; justify-content:center;
+        color: var(--muted);
+        position:relative;
+        overflow:hidden;
+      }
+      .radarInner .note{ position:absolute; bottom:10px; left:12px; font-size:11px; color:var(--muted); }
+      .radarSvg{ width: 96%; max-height: 96%; opacity:.95; }
+
+      .leftStack{ display:grid; gap:10px; }
+
+      .rightStack{
+        display:flex;
+        flex-direction:column;
+        gap: 26px;
+        height: 100%;
+      }
+
+      .kpi{
+        border:1px solid var(--line);
+        border-radius:14px;
+        padding:10px 12px;
+        background: var(--soft);
+      }
+      .kpi .label{ font-size:20px; color: var(--muted); font-weight:800; }
+      .kpi .value{
+        margin-top:12px;
+        font-size: 24px;
+        font-weight: 900;
+        letter-spacing:.3px;
+        color: var(--ink);
+        display:flex; align-items:baseline; gap:8px;
+        line-height: 1.1;
+      }
+      .kpi .value span{ font-size:18px; font-weight:800; color: var(--muted); }
+
+      .dimCard{
+        flex: 1;
+        display:flex;
+        flex-direction:column;
+      }
+      .dimCard h2{ font-size:18px; margin:0 0 8px 0; }
+
+      .list{
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        justify-content: space-evenly;
+        gap: 0;
+        font-size: 13.5px;
+      }
+
+      .row{
+        display:flex;
+        justify-content:space-evenly;
+        align-items:center;
+        gap:10px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(226,232,240,.9);
+        background:#fff;
+      }
+      .row .name{ color: var(--ink); font-weight: 800; }
+      .row .val{ color: var(--ink); font-variant-numeric: tabular-nums; font-weight: 900; }
+
+      /* chips */
+      .chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+      .chip{
+        display:inline-flex; align-items:center; gap:6px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(124,58,237,.25);
+        background: rgba(124,58,237,.08);
+        font-size: 12.5px;
+        color: var(--ink);
+        font-weight: 800;
+      }
+      .chip.low{ border-color: rgba(220,38,38,.25); background: rgba(220,38,38,.08); }
+      .chip.high{ border-color: rgba(22,163,74,.25); background: rgba(22,163,74,.08); }
+
+      .section{ margin-top: 10mm; }
+      .sectionTitle{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:8px; }
+      .sectionTitle h3{ margin:0; font-size:14px; letter-spacing:.2px; }
+      .sectionTitle .hint{ font-size:12px; color: var(--muted); }
+
+      .summary{
+        border:1px solid rgba(124,58,237,.18);
+        border-radius:16px;
+        padding:14px 14px;
+        background: linear-gradient(180deg, rgba(124,58,237,.08), rgba(124,58,237,.03));
+        line-height:1.85;
+        font-size:14.5px;
+        color: var(--ink);
+        font-weight: 650;
+      }
+      .summary .muted{
+        color: var(--muted);
+        font-size:12.5px;
+        margin-top:8px;
+        font-weight: 600;
+      }
+
+      table{
+        width:100%;
+        border-collapse: separate;
+        border-spacing:0;
+        overflow:hidden;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background:#fff;
+        font-size: 12px;
+      }
+      thead th{
+        text-align:left;
+        color: var(--muted);
+        background: var(--soft);
+        padding: 10px 10px;
+        border-bottom: 1px solid var(--line);
+        font-weight: 900;
+      }
+      tbody td{
+        padding: 9px 10px;
+        border-bottom: 1px solid rgba(226,232,240,.85);
+        vertical-align: top;
+      }
+      tbody tr:last-child td{ border-bottom:none; }
+      .num{ text-align:right; font-variant-numeric: tabular-nums; font-weight: 900; color: var(--ink); width: 80px; }
+      .tag{ display:inline-block; padding: 2px 6px; border-radius: 999px; border: 1px solid rgba(148,163,184,.5); color: var(--muted); font-size: 11px; margin-left: 6px; }
+      .groupTitle{ margin-top: 8mm; margin-bottom: 6px; font-size:12px; color: var(--muted); font-weight: 900; letter-spacing: .2px; }
+
+      .footer{
+        margin-top: 10mm;
+        padding-top: 8mm;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.6;
+      }
+
+      /* =================== ✅ 子项两表“列宽锁定”（A/B 得分列对齐） =================== */
+      table.subscoreTable{ table-layout: fixed; }
+      table.subscoreTable col.col-item{ width: 38%; }
+      table.subscoreTable col.col-score{ width: 14%; }
+      table.subscoreTable col.col-note{ width: 48%; }
+      table.subscoreTable .num{ width: auto; }
+
+      /* =================== ✅ 新增：最低/最高行浅底色 + 边框 =================== */
+      table.subscoreTable tr.hl-low td{
+        background: var(--lowBg);
+        border-bottom-color: rgba(226,232,240,.55);
+      }
+      table.subscoreTable tr.hl-high td{
+        background: var(--highBg);
+        border-bottom-color: rgba(226,232,240,.55);
+      }
+      /* 给高亮行第一格一点“左侧强调线”，更像重点但不夸张 */
+      table.subscoreTable tr.hl-low td:first-child{
+        box-shadow: inset 3px 0 0 var(--lowBd);
+      }
+      table.subscoreTable tr.hl-high td:first-child{
+        box-shadow: inset 3px 0 0 var(--highBd);
+      }
+
+      /* =================== ✅ 新增：备注关键词加粗 + 轻量着色 =================== */
+      .kw{ font-weight: 900; }
+      .kw.low{ color: rgba(220,38,38,.95); }
+      .kw.high{ color: rgba(22,163,74,.95); }
+
+      @media print{
+        body{ background:#fff; }
+        .page{
+          margin: 0;
+          border: none;
+          box-shadow: none;
+          width: auto;
+          min-height: auto;
+          page-break-after: always;
+        }
+        .page:last-child{ page-break-after: auto; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- =================== PAGE 1：摘要页 =================== -->
+    <section class="page">
+      <div class="header">
+        <div class="brand">
+          <div class="logo">圆桌</div>
+          <div class="title">
+            <h1>领导力测评报告</h1>
+            <div class="sub">模板B｜摘要 + 明细（对齐版V2）</div>
+          </div>
+        </div>
+        <div class="meta">
+          报告日期：<b>2026-01-10</b><br />
+          报告编号：<b>RPT-358c1920</b><br />
+          量表：<b>1.00～5.00（保留两位小数）</b>
+        </div>
+      </div>
+
+      <div class="infoBar">
+        <div class="item">姓名<b>张三丰</b></div>
+        <div class="item">公司<b>武当山</b></div>
+        <div class="item">测评时间<b>2025-12-29 22:05</b></div>
+      </div>
+
+      <div class="grid2">
+        <!-- left -->
+        <div class="leftStack">
+          <div class="card radarCard">
+            <h2>领导力雷达图（7维 / 21子项）</h2>
+            <div class="radarWrap">
+              <div class="radarInner">
+                <svg class="radarSvg" viewBox="0 0 600 520" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="rgba(124,58,237,.35)"/>
+                      <stop offset="1" stop-color="rgba(124,58,237,.05)"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="0" y="0" width="600" height="520" fill="white"/>
+                  <circle cx="300" cy="260" r="180" fill="none" stroke="rgba(148,163,184,.6)" stroke-dasharray="6 6" stroke-width="2"/>
+                  <circle cx="300" cy="260" r="130" fill="none" stroke="rgba(148,163,184,.55)" stroke-dasharray="6 6" stroke-width="2"/>
+                  <circle cx="300" cy="260" r="80" fill="none" stroke="rgba(148,163,184,.5)" stroke-dasharray="6 6" stroke-width="2"/>
+                  <line x1="300" y1="80" x2="300" y2="440" stroke="rgba(15,23,42,.35)" stroke-width="2"/>
+                  <line x1="120" y1="260" x2="480" y2="260" stroke="rgba(15,23,42,.35)" stroke-width="2"/>
+                  <line x1="180" y1="130" x2="420" y2="390" stroke="rgba(15,23,42,.35)" stroke-width="2"/>
+                  <line x1="420" y1="130" x2="180" y2="390" stroke="rgba(15,23,42,.35)" stroke-width="2"/>
+                  <polygon points="300,120 385,170 405,270 350,350 250,350 195,270 215,170"
+                    fill="url(#g1)" stroke="rgba(124,58,237,.65)" stroke-width="3"/>
+                  <text x="300" y="70" text-anchor="middle" font-size="14" fill="rgba(100,116,139,1)">（此处将替换为真实雷达图 PNG）</text>
+                </svg>
+                <div class="note">PDF 中会嵌入与你网页预览一致的雷达图 PNG。</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>关键关注点</h2>
+            <div style="font-size:12px;color:var(--muted);font-weight:900;">最低3项（能力项）</div>
+            <div class="chips">
+              <span class="chip low">沉着 2.33</span>
+              <span class="chip low">平衡 2.00</span>
+              <span class="chip low">战略关注 2.00</span>
+            </div>
+
+            <div style="font-size:12px;color:var(--muted);font-weight:900;margin-top:10px;">最高2项（限制项）</div>
+            <div class="chips">
+              <span class="chip high">挑剔 4.33</span>
+              <span class="chip high">完美 4.00</span>
+            </div>
+
+            <div style="margin-top:10px;font-size:11.5px;color:var(--muted);line-height:1.6;">
+              说明：能力项取最低3；限制项取最高2，用于反映当前最需要被关注的结构特征。
+            </div>
+          </div>
+        </div>
+
+        <div class="rightStack">
+          <div class="kpi">
+            <div class="label">综合得分</div>
+            <div class="value">3.47 <span>/ 5.00</span></div>
+          </div>
+
+          <div class="card dimCard">
+            <h2>7大维度得分</h2>
+            <div class="list">
+              <div class="row"><div class="name">成就导向</div><div class="val">3.00</div></div>
+              <div class="row"><div class="name">系统意识</div><div class="val">2.67</div></div>
+              <div class="row"><div class="name">自我觉察</div><div class="val">3.22</div></div>
+              <div class="row"><div class="name">协同赋能</div><div class="val">2.89</div></div>
+              <div class="row"><div class="name">顺从</div><div class="val">3.40</div></div>
+              <div class="row"><div class="name">防御</div><div class="val">3.68</div></div>
+              <div class="row"><div class="name">控制</div><div class="val">3.43</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sectionTitle">
+          <h3>洞察摘要</h3>
+          <div class="hint">控制在 3～4 行，仅做现状分析</div>
+        </div>
+        <div class="summary">
+          <div>
+            从得分结构看，限制项（防御/控制）整体偏高，说明在压力情境下更容易进入“标准化推动、纠错与把控细节”的模式；
+            同时能力项中的战略关注、平衡与沉着偏低，提示在复杂场景中更容易出现节奏不稳与注意力分散的体验。
+          </div>
+          <div class="muted">* 以上仅为模拟文案。正式报告将使用 submissions 中的 insight_text（自动截取到 3～4 行展示）。</div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>保密提示：本报告仅供本人及教练团队用于成长辅导与复盘，不建议公开传播。</div>
+        <div>量表口径：所有得分均为 1.00～5.00，数值越高代表该特质表现越明显；限制项得分越高代表压力情境下该模式出现的概率越高。</div>
+      </div>
+    </section>
+
+    <!-- =================== PAGE 2：明细页 =================== -->
+    <section class="page">
+      <div class="header">
+        <div class="brand">
+          <div class="logo">圆桌</div>
+          <div class="title">
+            <h1>领导力测评报告</h1>
+            <div class="sub">模板B｜明细页（维度 + 子项表格）</div>
+          </div>
+        </div>
+        <div class="meta">
+          姓名：<b>张三丰</b><br />
+          公司：<b>武当山</b><br />
+          报告编号：<b>RPT-358c1920</b>
+        </div>
+      </div>
+
+      <div class="section" style="margin-top: 10mm;">
+        <div class="sectionTitle">
+          <h3>7大维度得分明细</h3>
+          <div class="hint">保留解释列</div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>维度</th>
+              <th class="num">得分</th>
+              <th>解释（示例）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>成就导向 <span class="tag">能力</span></td>
+              <td class="num">3.00</td>
+              <td>关注目标与成果，以行动推进结果；相关子项：使命愿景、战略关注、取得成果。</td>
+            </tr>
+            <tr>
+              <td>系统意识 <span class="tag">能力</span></td>
+              <td class="num">2.67</td>
+              <td>从全局看结构与因果，做系统化取舍；相关子项：系统思考、平衡、持续产出。</td>
+            </tr>
+            <tr>
+              <td>自我觉察 <span class="tag">能力</span></td>
+              <td class="num">3.22</td>
+              <td>复盘与学习，保持稳定内核；相关子项：反思自省、学习者、沉着。</td>
+            </tr>
+            <tr>
+              <td>协同赋能 <span class="tag">能力</span></td>
+              <td class="num">2.89</td>
+              <td>建立信任与合作，发展他人；相关子项：关爱、培育、团队合作。</td>
+            </tr>
+            <tr>
+              <td>顺从 <span class="tag">限制</span></td>
+              <td class="num">3.40</td>
+              <td>压力下倾向于迎合或回避冲突；相关子项：取悦、被动、保守。</td>
+            </tr>
+            <tr>
+              <td>防御 <span class="tag">限制</span></td>
+              <td class="num">3.68</td>
+              <td>压力下倾向于自我保护、距离、挑剔；相关子项：傲慢、距离感、挑剔。</td>
+            </tr>
+            <tr>
+              <td>控制 <span class="tag">限制</span></td>
+              <td class="num">3.43</td>
+              <td>压力下倾向于高标准强推动；相关子项：完美、专制、工作狂。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section" style="margin-top: 9mm;">
+        <div class="sectionTitle">
+          <h3>21个子项得分明细</h3>
+          <div class="hint">分两表（能力 / 限制）</div>
+        </div>
+
+        <div class="groupTitle">A. 能力子项（上半区 12 项）</div>
+        <table class="subscoreTable">
+          <colgroup>
+            <col class="col-item" />
+            <col class="col-score" />
+            <col class="col-note" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>子项</th>
+              <th class="num">得分</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hl-low">
+              <td>使命愿景</td>
+              <td class="num">2.00</td>
+              <td>
+                <b class="kw low">使命/愿景感偏弱</b>，容易出现“知道要做，但说不清为什么”的状态；<br>
+                <b class="kw low">决策口径与对外表达不够一致</b>，团队对方向的理解更难自然对齐。
+              </td>
+            </tr>
+            <tr class="hl-low">
+              <td>战略关注</td>
+              <td class="num">2.00</td>
+              <td>
+                <b class="kw low">聚焦度不足</b>，容易在信息与机会之间来回切换；<br>
+                资源有限时<b class="kw low">优先级拉扯更明显</b>，投入分散、难形成“主线感”。
+              </td>
+            </tr>
+            <tr><td>取得成果</td><td class="num">3.33</td><td>——</td></tr>
+            <tr><td>系统思考</td><td class="num">2.33</td><td>——</td></tr>
+            <tr class="hl-low">
+              <td>平衡</td>
+              <td class="num">2.00</td>
+              <td>
+                多目标并行时更容易<b class="kw low">节奏失衡</b>：要么面面俱到导致效率下降，<br>
+                要么在压力下只盯结果忽略边界，进而产生<b class="kw low">波动与疲惫感</b>。
+              </td>
+            </tr>
+            <tr><td>持续产出</td><td class="num">3.67</td><td>——</td></tr>
+            <tr><td>反思自省</td><td class="num">3.33</td><td>——</td></tr>
+            <tr><td>学习者</td><td class="num">2.33</td><td>——</td></tr>
+            <tr><td>沉着</td><td class="num">2.33</td><td>——</td></tr>
+            <tr><td>关爱</td><td class="num">2.33</td><td>——</td></tr>
+            <tr><td>培育</td><td class="num">2.67</td><td>——</td></tr>
+            <tr><td>团队合作</td><td class="num">3.67</td><td>——</td></tr>
+          </tbody>
+        </table>
+
+        <div class="groupTitle">B. 限制子项（下半区 9 项）</div>
+        <table class="subscoreTable">
+          <colgroup>
+            <col class="col-item" />
+            <col class="col-score" />
+            <col class="col-note" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>子项</th>
+              <th class="num">得分</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>取悦</td><td class="num">2.67</td><td>——</td></tr>
+            <tr><td>被动</td><td class="num">3.00</td><td>——</td></tr>
+            <tr><td>保守</td><td class="num">3.00</td><td>——</td></tr>
+            <tr><td>傲慢</td><td class="num">3.67</td><td>——</td></tr>
+            <tr><td>距离感</td><td class="num">3.33</td><td>——</td></tr>
+            <tr class="hl-high">
+              <td>挑剔</td>
+              <td class="num">4.33</td>
+              <td>
+                对差错与不完美<b class="kw high">高度敏感</b>，更习惯先看到问题与风险；<br>
+                沟通中容易呈现<b class="kw high">挑错/否定感</b>，使他人防御上升、协作成本变高。
+              </td>
+            </tr>
+            <tr class="hl-high">
+              <td>完美</td>
+              <td class="num">4.00</td>
+              <td>
+                对标准与控制感<b class="kw high">要求高</b>，倾向于把事情做到“绝对正确”；<br>
+                压力情境下更容易<b class="kw high">放大细节与流程</b>，整体呈现推进偏慢、授权难度更大。
+              </td>
+            </tr>
+            <tr><td>专制</td><td class="num">2.33</td><td>——</td></tr>
+            <tr><td>工作狂</td><td class="num">2.67</td><td>——</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- 第二页页脚：按你要求删除 -->
+    </section>
+  </body>
+</html>

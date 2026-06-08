@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>圆桌经营会｜问卷作答</title>
+
+  <!-- ✅ 强制更新：加版本号 -->
+  <link rel="stylesheet" href="./styles.css?v=20260118_01" />
+  <script defer src="./config.js?v=20260118_01"></script>
+  <script defer src="./survey.js?v=20260118_01"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-left"></div>
+
+      <div class="brand-center">
+        <div class="brand-block">
+          <img class="logo" src="./assets/logo.png" alt="圆桌经营会" />
+          <div class="brand-text">
+            <div class="brand-title">圆桌经营会</div>
+            <div class="brand-sub">企业家领导力测评（63题）</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-right muted small" id="who"></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="row space">
+        <div>
+          <h1 class="h1">问卷作答</h1>
+          <div class="muted small">请选择 1–5 分（含 0.5 分档；非常不同意 → 非常同意）。</div>
+        </div>
+        <div class="progressBox">
+          <div class="muted small" id="progressText">0 / 63</div>
+          <div class="progress"><div id="progressBar" class="progressBar"></div></div>
+        </div>
+      </div>
+
+      <div id="questionList" class="qList"></div>
+
+      <div class="toolbar mt pager-bottom">
+        <button id="btnPrev" class="btn">上一页</button>
+        <button id="btnNext" class="btn">下一页</button>
+        <button id="btnJump" class="btn ghost">跳到未答</button>
+      </div>
+
+      <div class="toolbar mt">
+        <button id="submitBtn" class="btn primary">提交问卷</button>
+        <div id="submitErr" class="err"></div>
+      </div>
+    </section>
+  </main>
+
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+    integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+    data-cf-beacon='{"version":"2024.11.0","token":"6eb233f289fd42d29dd753ef051d5246","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}'
+    crossorigin="anonymous"></script>
+</body>
+</html>
