@@ -11,14 +11,14 @@
 
 ## Current State
 
-当前问卷仍是旧版 63 题 / 21 子项结构。后续目标是升级为：
+当前问卷已经升级为：
 
 - 7 个大维度
 - 32 个小维度
 - 每个小维度 3 题
 - 共 96 题
 
-升级时需要同步修改：
+继续调整题目或模型时需要同步修改：
 
 - `frontend/questions.json`
 - `supabase/functions/submit-survey/index.ts`
@@ -29,21 +29,15 @@
 
 部署 `frontend/` 目录到静态站点。
 
-部署前需要提供真实配置文件：
-
-```powershell
-copy frontend\config.example.js frontend\config.js
-```
-
-然后编辑 `frontend/config.js`：
+部署时需要确保 `frontend/config.js` 与页面同目录可访问：
 
 ```js
-window.SUPABASE_URL = "https://YOUR_PROJECT_REF.supabase.co";
-window.SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+window.SUPABASE_URL = "https://<project_ref>.supabase.co";
+window.SUPABASE_ANON_KEY = "<public_anon_key>";
 window.SUPABASE_FUNCTION_NAME = "submit-survey";
 ```
 
-`frontend/config.js` 是环境配置文件，不提交到 Git。
+`frontend/config.js` 只允许放 Supabase URL、public anon key、函数名。不要把 service role key 放进前端。
 
 ## Supabase Deploy
 
@@ -87,5 +81,6 @@ frontend/done.html
 ## GitHub Safety Rules
 
 - 仓库建议设为 private。
-- 不提交 `frontend/config.js`、`.env`、payload、日志、Supabase `.temp`。
+- 不提交 `.env`、payload、日志、Supabase `.temp`。
+- `frontend/config.js` 可以提交，但只能包含 public anon key，不能包含 service role key。
 - service role key 只放在 Supabase secrets 中。

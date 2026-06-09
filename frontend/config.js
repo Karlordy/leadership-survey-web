@@ -1,0 +1,5 @@
+// 填入 Supabase 项目配置（Project Settings -> API）
+window.SUPABASE_URL = "https://cwggwqniwkwepktbuhag.supabase.co";
+window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3Z2d3cW5pd2t3ZXBrdGJ1aGFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3MDM0NTgsImV4cCI6MjA4MTI3OTQ1OH0.uL3fNF36nCPcb9hEHrUTCRdZ1YurFeyo2OY96qDbnQ0";
+window.SUPABASE_FUNCTION_NAME = "submit-survey";
+

@@ -1,7 +1,6 @@
 # Secrets and environment-specific frontend config
 .env
 .env.*
-frontend/config.js
 
 # Supabase local/cache files
 supabase/.temp/
