@@ -1,4 +1,5 @@
 let DATA = null;
+let ORDERED_QUESTIONS = [];
 let answers = {};
 let page = 0;
 const pageSize = 32;
@@ -30,8 +31,63 @@ async function loadData() {
   DATA = await res.json();
 }
 
+function randomInt(maxExclusive) {
+  if (window.crypto?.getRandomValues) {
+    const buf = new Uint32Array(1);
+    window.crypto.getRandomValues(buf);
+    return buf[0] % maxExclusive;
+  }
+  return Math.floor(Math.random() * maxExclusive);
+}
+
+function shuffledIds(ids) {
+  const out = [...ids];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = randomInt(i + 1);
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+function orderStorageKey(name, company) {
+  const version = DATA?.model_version || "v1";
+  return `rt_question_order:${version}:${name}:${company}`;
+}
+
+function initQuestionOrder(name, company) {
+  const allIds = DATA.questions.map(q => q.id);
+  const allIdSet = new Set(allIds.map(String));
+  const key = orderStorageKey(name, company);
+  let order = null;
+
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(key) || "null");
+    if (
+      Array.isArray(saved) &&
+      saved.length === allIds.length &&
+      saved.every(id => allIdSet.has(String(id)))
+    ) {
+      order = saved;
+    }
+  } catch {
+    order = null;
+  }
+
+  if (!order) {
+    order = shuffledIds(allIds);
+    try {
+      sessionStorage.setItem(key, JSON.stringify(order));
+    } catch {
+      // ignore
+    }
+  }
+
+  const byId = new Map(DATA.questions.map(q => [String(q.id), q]));
+  ORDERED_QUESTIONS = order.map(id => byId.get(String(id))).filter(Boolean);
+}
+
 function updateProgress() {
-  const total = DATA.questions.length;
+  const total = ORDERED_QUESTIONS.length;
   const done = Object.keys(answers).filter(k => answers[k] != null).length;
   const pct = Math.round(done / total * 100);
   $("progressBar").style.width = pct + "%";
@@ -39,7 +95,7 @@ function updateProgress() {
 }
 
 function updatePageHint() {
-  const total = DATA.questions.length;
+  const total = ORDERED_QUESTIONS.length;
   const start = page * pageSize + 1;
   const end = Math.min((page + 1) * pageSize, total);
   const maxPage = Math.ceil(total / pageSize);
@@ -63,15 +119,16 @@ function renderPage() {
 
   const start = page * pageSize;
   const end = start + pageSize;
-  const qs = DATA.questions.slice(start, end);
+  const qs = ORDERED_QUESTIONS.slice(start, end);
 
-  for (const q of qs) {
+  qs.forEach((q, idx) => {
+    const displayNo = start + idx + 1;
     const el = document.createElement("div");
     el.className = "q";
 
     el.innerHTML = `
       <div class="qHead">
-        <div class="qTitle">Q${q.id}. ${escapeHtml(q.text)}</div>
+        <div class="qTitle">Q${displayNo}. ${escapeHtml(q.text)}</div>
       </div>
 
       <div class="scale" data-qid="${q.id}">
@@ -104,14 +161,14 @@ function renderPage() {
 
       updateProgress();
     });
-  }
+  });
 
   updateProgress();
   updatePageHint();
 }
 
 function firstUnanswered() {
-  for (const q of DATA.questions) {
+  for (const q of ORDERED_QUESTIONS) {
     if (answers[q.id] == null) return q.id;
   }
   return null;
@@ -121,7 +178,7 @@ function jumpToUnanswered() {
   const qid = firstUnanswered();
   if (qid == null) { alert("已全部作答 ✅"); return; }
 
-  const idx = DATA.questions.findIndex(q => q.id === qid);
+  const idx = ORDERED_QUESTIONS.findIndex(q => q.id === qid);
   page = Math.floor(idx / pageSize);
 
   renderPage();
@@ -186,6 +243,7 @@ async function submit() {
 
   const name = norm(sessionStorage.getItem("rt_name"));
   const company = norm(sessionStorage.getItem("rt_company"));
+  initQuestionOrder(name, company);
   $("who").textContent = name && company ? `${name}｜${company}` : "";
 
   $("btnPrev").addEventListener("click", () => {
@@ -195,7 +253,7 @@ async function submit() {
   });
 
   $("btnNext").addEventListener("click", () => {
-    const maxPage = Math.ceil(DATA.questions.length / pageSize) - 1;
+    const maxPage = Math.ceil(ORDERED_QUESTIONS.length / pageSize) - 1;
     page = Math.min(maxPage, page + 1);
     renderPage();
     window.scrollTo({ top: 0, behavior: "smooth" });

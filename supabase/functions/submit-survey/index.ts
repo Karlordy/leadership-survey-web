@@ -62,7 +62,7 @@ type QuestionBank = {
 
 // ===== 题库（96题 / 32子项，内嵌以避免 Edge Function 运行时读文件失败）=====
 const QUESTION_BANK: QuestionBank = {
-  "model_version": "2026-06-08.32-subdimensions.v1",
+  "model_version": "2026-06-16.32-subdimensions.v2",
   "scale": {
     "min": 1,
     "max": 5,
@@ -284,7 +284,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q001",
       "dimension": "成就导向",
       "subitem": "决断力",
-      "text": "面对复杂情况时，我能够在信息不完全的情况下做出必要决策。",
+      "text": "我在必要时能对棘手的问题做出决策",
       "reverse": false
     },
     {
@@ -292,7 +292,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q002",
       "dimension": "成就导向",
       "subitem": "决断力",
-      "text": "当团队犹豫不决时，我能帮助大家明确方向并推动行动。",
+      "text": "我能够及时做出决定",
       "reverse": false
     },
     {
@@ -300,7 +300,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q003",
       "dimension": "成就导向",
       "subitem": "决断力",
-      "text": "我不会因为担心出错而长期拖延关键决定。",
+      "text": "我不需要获得别人的认可也能够果断做出决定",
       "reverse": false
     },
     {
@@ -308,7 +308,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q004",
       "dimension": "成就导向",
       "subitem": "领导效能",
-      "text": "我能通过清晰目标和有效管理，让团队持续产生成果。",
+      "text": "总体而言，我的领导力行之有效",
       "reverse": false
     },
     {
@@ -316,7 +316,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q005",
       "dimension": "成就导向",
       "subitem": "领导效能",
-      "text": "我能根据不同成员的能力分配任务，而不是事事亲自处理。",
+      "text": "我是那种别人立志成为的领导",
       "reverse": false
     },
     {
@@ -324,7 +324,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q006",
       "dimension": "成就导向",
       "subitem": "领导效能",
-      "text": "我的管理方式能帮助团队提升效率，而不是只依赖个人努力。",
+      "text": "我能根据不同成员的能力分配任务，而不是事事亲自处理",
       "reverse": false
     },
     {
@@ -332,7 +332,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q007",
       "dimension": "成就导向",
       "subitem": "取得成果",
-      "text": "我重视把目标转化为具体行动、责任人和完成时间。",
+      "text": "对于关键事务，我足以胜任并且能够取得好成果",
       "reverse": false
     },
     {
@@ -340,7 +340,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q008",
       "dimension": "成就导向",
       "subitem": "取得成果",
-      "text": "我会持续跟进关键事项，确保结果真正落地。",
+      "text": "为追求结果，我总是干劲十足",
       "reverse": false
     },
     {
@@ -348,7 +348,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q009",
       "dimension": "成就导向",
       "subitem": "取得成果",
-      "text": "当目标推进受阻时，我会主动寻找解决路径，而不是停留在抱怨。",
+      "text": "我能够准确预测当前行动的结果",
       "reverse": false
     },
     {
@@ -356,7 +356,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q010",
       "dimension": "成就导向",
       "subitem": "使命愿景",
-      "text": "我能向团队清楚表达组织的方向和长期价值。",
+      "text": "我致力于服务他人与世界，这是我的主动选择",
       "reverse": false
     },
     {
@@ -364,7 +364,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q011",
       "dimension": "成就导向",
       "subitem": "使命愿景",
-      "text": "我能让团队理解当前工作与更大目标之间的关系。",
+      "text": "我对自己所拥护的愿景身体力行",
       "reverse": false
     },
     {
@@ -372,7 +372,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q012",
       "dimension": "成就导向",
       "subitem": "使命愿景",
-      "text": "我会用愿景和意义感帮助团队保持投入。",
+      "text": "我能清晰讲述愿景以让组织团结起来",
       "reverse": false
     },
     {
@@ -380,7 +380,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q013",
       "dimension": "成就导向",
       "subitem": "战略关注",
-      "text": "我能识别当前阶段最重要的事情，并主动做取舍。",
+      "text": "我提出的战略方向都经过深思熟虑",
       "reverse": false
     },
     {
@@ -388,7 +388,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q014",
       "dimension": "成就导向",
       "subitem": "战略关注",
-      "text": "我不会轻易被临时机会或外部噪音打乱优先级。",
+      "text": "我持续关注外部环境的趋势，因为这些趋势会影响公司当前及未来的发展",
       "reverse": false
     },
     {
@@ -396,7 +396,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q015",
       "dimension": "成就导向",
       "subitem": "战略关注",
-      "text": "我能帮助团队聚焦关键目标，而不是同时做太多事情。",
+      "text": "我能够指明公司的战略方向，让公司得以繁盛发展",
       "reverse": false
     },
     {
@@ -404,7 +404,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q016",
       "dimension": "系统意识",
       "subitem": "持续性产出",
-      "text": "我重视建立稳定机制，而不是只靠临时冲刺完成任务。",
+      "text": "我可以在短期的绩效与组织的长期健康发展之间取得平衡",
       "reverse": false
     },
     {
@@ -412,7 +412,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q017",
       "dimension": "系统意识",
       "subitem": "持续性产出",
-      "text": "我会关注团队是否能长期、稳定、可预期地产生成果。",
+      "text": "我合理分配资源，以免耗尽人员的精力",
       "reverse": false
     },
     {
@@ -420,7 +420,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q018",
       "dimension": "系统意识",
       "subitem": "持续性产出",
-      "text": "当成果不稳定时，我会优先检查流程和机制。",
+      "text": "我的领导能力让组织得以繁盛发展",
       "reverse": false
     },
     {
@@ -428,7 +428,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q019",
       "dimension": "系统意识",
       "subitem": "关心社会",
-      "text": "我会思考企业行为对客户、员工、行业或社会的长期影响。",
+      "text": "我在创造社会福利和短期盈利之间寻求平衡",
       "reverse": false
     },
     {
@@ -436,7 +436,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q020",
       "dimension": "系统意识",
       "subitem": "关心社会",
-      "text": "在追求经营结果时，我也会关注组织责任和外部价值。",
+      "text": "我强调企业的社会责任",
       "reverse": false
     },
     {
@@ -444,7 +444,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q021",
       "dimension": "系统意识",
       "subitem": "关心社会",
-      "text": "我希望企业不只是赚钱，也能创造积极影响。",
+      "text": "我会思考企业行为对客户、员工、行业或社会的长期影响",
       "reverse": false
     },
     {
@@ -452,7 +452,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q022",
       "dimension": "系统意识",
       "subitem": "平衡",
-      "text": "我能在业务目标、资源、人员状态和长期发展之间保持平衡。",
+      "text": "我可以在财务目标与其他组织目标之间取得平衡",
       "reverse": false
     },
     {
@@ -460,7 +460,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q023",
       "dimension": "系统意识",
       "subitem": "平衡",
-      "text": "我不会为了短期结果长期透支团队。",
+      "text": "我可以在工作与生活之间取得平衡",
       "reverse": false
     },
     {
@@ -468,7 +468,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q024",
       "dimension": "系统意识",
       "subitem": "平衡",
-      "text": "在安排任务时，我会考虑团队的承载能力和节奏。",
+      "text": "遇到需要协商的事情时，我会使双方的利益最大化",
       "reverse": false
     },
     {
@@ -476,7 +476,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q025",
       "dimension": "系统意识",
       "subitem": "系统思考",
-      "text": "遇到问题时，我会关注背后的结构原因，而不是只处理表面现象。",
+      "text": "我重新设计系统，以同时解决多个问题",
       "reverse": false
     },
     {
@@ -484,7 +484,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q026",
       "dimension": "系统意识",
       "subitem": "系统思考",
-      "text": "我习惯从流程、角色、资源和机制之间的关系看问题。",
+      "text": "我会挖掘事件背后更深层次的意义",
       "reverse": false
     },
     {
@@ -492,7 +492,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q027",
       "dimension": "系统意识",
       "subitem": "系统思考",
-      "text": "我会通过复盘减少同类问题反复出现。",
+      "text": "我能看到系统组织中各部分之间的关联性",
       "reverse": false
     },
     {
@@ -500,7 +500,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q028",
       "dimension": "系统意识",
       "subitem": "资源统筹",
-      "text": "我能根据目标合理配置人力、时间、资金和外部资源。",
+      "text": "我能协调不同资源形成合力，而不是让各环节各自为战",
       "reverse": false
     },
     {
@@ -508,7 +508,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q029",
       "dimension": "系统意识",
       "subitem": "资源统筹",
-      "text": "当资源有限时，我能判断哪些投入最关键。",
+      "text": "当资源有限时，我能准确判断哪些投入最关键",
       "reverse": false
     },
     {
@@ -516,7 +516,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q030",
       "dimension": "系统意识",
       "subitem": "资源统筹",
-      "text": "我能协调不同资源形成合力，而不是让各环节各自为战。",
+      "text": "我能根据目标合理配置人力、时间、资金和外部资源",
       "reverse": false
     },
     {
@@ -524,7 +524,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q031",
       "dimension": "自我觉察",
       "subitem": "沉着",
-      "text": "在压力或冲突中，我通常能保持情绪稳定。",
+      "text": "在压力或冲突中，我通常能保持情绪稳定",
       "reverse": false
     },
     {
@@ -532,7 +532,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q032",
       "dimension": "自我觉察",
       "subitem": "沉着",
-      "text": "面对突发问题时，我能先稳定局面，再做判断。",
+      "text": "我可以轻松地应付压力",
       "reverse": false
     },
     {
@@ -540,7 +540,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q033",
       "dimension": "自我觉察",
       "subitem": "沉着",
-      "text": "我的情绪不容易让团队陷入紧张或混乱。",
+      "text": "面对突发问题时，我能先稳定局面，再做后续打算",
       "reverse": false
     },
     {
@@ -548,7 +548,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q034",
       "dimension": "自我觉察",
       "subitem": "反思自省",
-      "text": "我愿意复盘自己的判断、行为和管理方式。",
+      "text": "我能够找到充足的时间反省自我",
       "reverse": false
     },
     {
@@ -556,7 +556,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q035",
       "dimension": "自我觉察",
       "subitem": "反思自省",
-      "text": "当事情没有做好时，我会先检查自己的责任和盲点。",
+      "text": "我审视自己行动背后的假设",
       "reverse": false
     },
     {
@@ -564,7 +564,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q036",
       "dimension": "自我觉察",
       "subitem": "反思自省",
-      "text": "我能从反馈中看到自己的模式，而不是只关注对错。",
+      "text": "我善于从错误中学习",
       "reverse": false
     },
     {
@@ -572,7 +572,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q037",
       "dimension": "自我觉察",
       "subitem": "无私领导",
-      "text": "我愿意把机会、资源和舞台交给团队成员。",
+      "text": "我专注做事而不需邀功",
       "reverse": false
     },
     {
@@ -580,7 +580,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q038",
       "dimension": "自我觉察",
       "subitem": "无私领导",
-      "text": "我不会把团队成果过度归因于自己。",
+      "text": "我不太热衷于让别人记住我的功劳",
       "reverse": false
     },
     {
@@ -588,7 +588,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q039",
       "dimension": "自我觉察",
       "subitem": "无私领导",
-      "text": "我能为了组织整体利益，放下个人面子或短期得失。",
+      "text": "我愿意把机会、资源和舞台交给团队成员",
       "reverse": false
     },
     {
@@ -596,7 +596,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q040",
       "dimension": "自我觉察",
       "subitem": "学习者",
-      "text": "我愿意持续学习新方法，并应用到实际管理中。",
+      "text": "我能够虚心听取批评，还会通过提问以帮助自己更好地去理解对方",
       "reverse": false
     },
     {
@@ -604,7 +604,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q041",
       "dimension": "自我觉察",
       "subitem": "学习者",
-      "text": "面对不熟悉的问题时，我愿意承认不足并主动学习。",
+      "text": "我认为要让自己感觉良好，就需要不断学习",
       "reverse": false
     },
     {
@@ -612,7 +612,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q042",
       "dimension": "自我觉察",
       "subitem": "学习者",
-      "text": "我会把经验沉淀成方法，而不是只停留在感受。",
+      "text": "我会把经验沉淀成方法，而不是只停留在感受",
       "reverse": false
     },
     {
@@ -620,7 +620,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q043",
       "dimension": "自我觉察",
       "subitem": "正直真实",
-      "text": "我通常能真实表达自己的判断，而不是刻意包装。",
+      "text": "别人不愿讨论的棘手话题，我也会带上台面",
       "reverse": false
     },
     {
@@ -628,7 +628,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q044",
       "dimension": "自我觉察",
       "subitem": "正直真实",
-      "text": "我能在压力下坚持原则和底线。",
+      "text": "我在会议上勇于发表自己的意见，即便对有争议的问题也直言不讳",
       "reverse": false
     },
     {
@@ -636,7 +636,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q045",
       "dimension": "自我觉察",
       "subitem": "正直真实",
-      "text": "我愿意承认问题，而不是用表面理由掩盖真实情况。",
+      "text": "无论顺境逆境，我都坚持自己的价值观",
       "reverse": false
     },
     {
@@ -644,7 +644,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q046",
       "dimension": "协同赋能",
       "subitem": "关爱",
-      "text": "我能关注团队成员的状态、感受和真实困难。",
+      "text": "我的关心能让团队感到被看见，而不是只被要求结果",
       "reverse": false
     },
     {
@@ -652,7 +652,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q047",
       "dimension": "协同赋能",
       "subitem": "关爱",
-      "text": "我会在关键时刻给予成员必要的支持和理解。",
+      "text": "我可以跟别人建立温暖且充满关怀的关系",
       "reverse": false
     },
     {
@@ -660,7 +660,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q048",
       "dimension": "协同赋能",
       "subitem": "关爱",
-      "text": "我的关心能让团队感到被看见，而不是只被要求结果。",
+      "text": "我能关注团队成员的状态、感受和真实困难",
       "reverse": false
     },
     {
@@ -668,7 +668,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q049",
       "dimension": "协同赋能",
       "subitem": "团队合作",
-      "text": "我重视团队之间的协同，而不是只强调个人表现。",
+      "text": "我为达成一致寻求共识",
       "reverse": false
     },
     {
@@ -676,7 +676,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q050",
       "dimension": "协同赋能",
       "subitem": "团队合作",
-      "text": "我能推动不同角色围绕共同目标合作。",
+      "text": "我授权他人领导工作，促进团队成员之间的合作",
       "reverse": false
     },
     {
@@ -684,7 +684,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q051",
       "dimension": "协同赋能",
       "subitem": "团队合作",
-      "text": "当团队出现协作问题时，我会主动帮助澄清责任和接口。",
+      "text": "我善于调节冲突",
       "reverse": false
     },
     {
@@ -692,7 +692,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q052",
       "dimension": "协同赋能",
       "subitem": "培育",
-      "text": "我愿意花时间培养团队成员的能力。",
+      "text": "我协助下属制定其发展计划",
       "reverse": false
     },
     {
@@ -700,7 +700,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q053",
       "dimension": "协同赋能",
       "subitem": "培育",
-      "text": "我会把方法教给别人，而不是长期让别人依赖我。",
+      "text": "我营造积极的氛围使得他人能够做到最好",
       "reverse": false
     },
     {
@@ -708,7 +708,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q054",
       "dimension": "协同赋能",
       "subitem": "培育",
-      "text": "我会给成员承担责任和成长的机会。",
+      "text": "我给别人反馈时，会重点关注如何帮助对方成长",
       "reverse": false
     },
     {
@@ -716,7 +716,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q055",
       "dimension": "协同赋能",
       "subitem": "人际交往",
-      "text": "我能与不同性格、不同立场的人建立有效沟通。",
+      "text": "遇到冲突时，我可以准确地复述对方的观点",
       "reverse": false
     },
     {
@@ -724,7 +724,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q056",
       "dimension": "协同赋能",
       "subitem": "人际交往",
-      "text": "我能在关系中保持真诚和边界。",
+      "text": "在人际关系出现问题时，我主动承担相应责任",
       "reverse": false
     },
     {
@@ -732,7 +732,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q057",
       "dimension": "协同赋能",
       "subitem": "人际交往",
-      "text": "我通常能通过沟通降低误解和摩擦。",
+      "text": "我会直接处理干扰团队表现的问题",
       "reverse": false
     },
     {
@@ -740,7 +740,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q058",
       "dimension": "协同赋能",
       "subitem": "协作者",
-      "text": "我愿意与他人共同完成目标，而不是凡事独自推动。",
+      "text": "我能在困境中安定人心",
       "reverse": false
     },
     {
@@ -748,7 +748,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q059",
       "dimension": "协同赋能",
       "subitem": "协作者",
-      "text": "我能尊重不同意见，并把它们整合进更好的方案。",
+      "text": "我能尊重不同意见，并把它们整合进更好的方案",
       "reverse": false
     },
     {
@@ -756,7 +756,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q060",
       "dimension": "协同赋能",
       "subitem": "协作者",
-      "text": "我能让团队成员感觉自己是共同参与者，而不是单纯执行者。",
+      "text": "我愿意与他人共同完成目标，而不是凡事独自推动",
       "reverse": false
     },
     {
@@ -764,7 +764,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q061",
       "dimension": "控制",
       "subitem": "工作狂",
-      "text": "当结果压力上升时，我容易通过加班或透支来解决问题。",
+      "text": "我容易把更多投入当成解决问题的主要方式",
       "reverse": false
     },
     {
@@ -772,7 +772,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q062",
       "dimension": "控制",
       "subitem": "工作狂",
-      "text": "我常常觉得只要自己再多扛一点，事情就能推进。",
+      "text": "我把自己逼的太紧",
       "reverse": false
     },
     {
@@ -780,7 +780,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q063",
       "dimension": "控制",
       "subitem": "工作狂",
-      "text": "我容易把高投入、高强度当成解决问题的主要方式。",
+      "text": "我常常觉得只要自己再多扛一点，事情就能推进",
       "reverse": false
     },
     {
@@ -788,7 +788,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q064",
       "dimension": "控制",
       "subitem": "完美",
-      "text": "我容易因为细节还不够好而延迟推进。",
+      "text": "我过分努力地要把每件事情都做到最好",
       "reverse": false
     },
     {
@@ -796,7 +796,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q065",
       "dimension": "控制",
       "subitem": "完美",
-      "text": "我对结果和过程的要求常常让别人感到压力。",
+      "text": "我需要在所有情况下都出类拔萃",
       "reverse": false
     },
     {
@@ -804,7 +804,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q066",
       "dimension": "控制",
       "subitem": "完美",
-      "text": "我有时会因为追求完美而降低团队行动速度。",
+      "text": "我认为达到平均水平远远不够",
       "reverse": false
     },
     {
@@ -812,7 +812,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q067",
       "dimension": "控制",
       "subitem": "野心",
-      "text": "我有时会过度追求更高目标，忽略团队当前承载能力。",
+      "text": "我需要得到别人的仰慕",
       "reverse": false
     },
     {
@@ -820,7 +820,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q068",
       "dimension": "控制",
       "subitem": "野心",
-      "text": "当我想赢或想证明自己时，容易推动团队过度加速。",
+      "text": "我的野心很大",
       "reverse": false
     },
     {
@@ -828,7 +828,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q069",
       "dimension": "控制",
       "subitem": "野心",
-      "text": "我可能会为了更大的成果，低估过程中的风险和代价。",
+      "text": "为了得到最终成果，我会牺牲他人的利益",
       "reverse": false
     },
     {
@@ -836,7 +836,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q070",
       "dimension": "控制",
       "subitem": "专制",
-      "text": "当事情推进不顺时，我容易直接下命令或替别人做决定。",
+      "text": "我非常强势",
       "reverse": false
     },
     {
@@ -844,7 +844,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q071",
       "dimension": "控制",
       "subitem": "专制",
-      "text": "我有时会用强势拍板来减少讨论和分歧。",
+      "text": "我直接下命令，而不是通过影响的方式让他人做事",
       "reverse": false
     },
     {
@@ -852,7 +852,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q072",
       "dimension": "控制",
       "subitem": "专制",
-      "text": "在压力下，我容易要求别人按我的方式执行。",
+      "text": "我必须按自己的方式行事",
       "reverse": false
     },
     {
@@ -860,7 +860,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q073",
       "dimension": "防御",
       "subitem": "傲慢",
-      "text": "当我确信自己是对的时，不太容易听进不同意见。",
+      "text": "我自视过高",
       "reverse": false
     },
     {
@@ -868,7 +868,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q074",
       "dimension": "防御",
       "subitem": "傲慢",
-      "text": "我有时会快速否定别人的观点。",
+      "text": "当我确信自己是对的时，就不想听不同意见",
       "reverse": false
     },
     {
@@ -876,7 +876,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q075",
       "dimension": "防御",
       "subitem": "傲慢",
-      "text": "在团队讨论中，我可能让别人不敢表达真实想法。",
+      "text": "我时常会快速否定别人的观点",
       "reverse": false
     },
     {
@@ -884,7 +884,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q076",
       "dimension": "防御",
       "subitem": "距离感",
-      "text": "当压力变大时，我会减少沟通，倾向于自己处理问题。",
+      "text": "我保持冷淡的态度",
       "reverse": false
     },
     {
@@ -892,7 +892,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q077",
       "dimension": "防御",
       "subitem": "距离感",
-      "text": "我不太愿意让别人看到我的压力或脆弱。",
+      "text": "别人难以了解我",
       "reverse": false
     },
     {
@@ -900,7 +900,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q078",
       "dimension": "防御",
       "subitem": "距离感",
-      "text": "团队有时会觉得我难以接近或不容易理解。",
+      "text": "我与他人情感疏离",
       "reverse": false
     },
     {
@@ -908,7 +908,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q079",
       "dimension": "防御",
       "subitem": "挑剔",
-      "text": "在压力下，我更容易看到问题、差错和不足。",
+      "text": "我当着别人的面批评他人",
       "reverse": false
     },
     {
@@ -916,7 +916,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q080",
       "dimension": "防御",
       "subitem": "挑剔",
-      "text": "我指出问题时，有时会让别人感到被否定。",
+      "text": "我尝尝愤世嫉俗",
       "reverse": false
     },
     {
@@ -924,7 +924,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q081",
       "dimension": "防御",
       "subitem": "挑剔",
-      "text": "我对标准的强调有时会让团队进入防御状态。",
+      "text": "我对他人的期待很高",
       "reverse": false
     },
     {
@@ -932,7 +932,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q082",
       "dimension": "防御",
       "subitem": "自我辩护",
-      "text": "当别人指出我的问题时，我容易先解释原因。",
+      "text": "当别人指出我的问题时，我习惯先解释原因",
       "reverse": false
     },
     {
@@ -940,7 +940,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q083",
       "dimension": "防御",
       "subitem": "自我辩护",
-      "text": "我有时会通过强调外部困难来保护自己的判断。",
+      "text": "我有时会通过强调外部困难来证明自己的判断",
       "reverse": false
     },
     {
@@ -948,7 +948,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q084",
       "dimension": "防御",
       "subitem": "自我辩护",
-      "text": "面对反馈时，我不总是能第一时间承认自己的责任。",
+      "text": "面对冲突时，我不愿第一个承认自己的责任",
       "reverse": false
     },
     {
@@ -956,7 +956,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q085",
       "dimension": "顺从",
       "subitem": "保守",
-      "text": "面对不确定时，我倾向于选择更稳妥的路径。",
+      "text": "我在规则内办事",
       "reverse": false
     },
     {
@@ -964,7 +964,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q086",
       "dimension": "顺从",
       "subitem": "保守",
-      "text": "我有时会为了避免出错而放弃突破机会。",
+      "text": "我总是在界限内活动",
       "reverse": false
     },
     {
@@ -972,7 +972,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q087",
       "dimension": "顺从",
       "subitem": "保守",
-      "text": "我更容易关注风险，而不是可能的增长空间。",
+      "text": "我遵循固有的做事方式",
       "reverse": false
     },
     {
@@ -980,7 +980,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q088",
       "dimension": "顺从",
       "subitem": "被动",
-      "text": "当信息不充分时，我容易等待更多条件成熟再行动。",
+      "text": "我缺乏动力",
       "reverse": false
     },
     {
@@ -988,7 +988,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q089",
       "dimension": "顺从",
       "subitem": "被动",
-      "text": "我有时会因为犹豫而错过关键时机。",
+      "text": "我做事被动",
       "reverse": false
     },
     {
@@ -996,7 +996,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q090",
       "dimension": "顺从",
       "subitem": "被动",
-      "text": "当问题不够明确时，我可能会延迟做决定。",
+      "text": "我有时会因为犹豫而错过关键时机",
       "reverse": false
     },
     {
@@ -1004,7 +1004,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q091",
       "dimension": "顺从",
       "subitem": "归属",
-      "text": "我希望自己被团队或重要关系接纳。",
+      "text": "我不太愿意做可能让自己被孤立的决定",
       "reverse": false
     },
     {
@@ -1012,7 +1012,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q092",
       "dimension": "顺从",
       "subitem": "归属",
-      "text": "为了保持归属感，我有时会压下真实想法。",
+      "text": "我需要得到别人的接纳和认可",
       "reverse": false
     },
     {
@@ -1020,7 +1020,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q093",
       "dimension": "顺从",
       "subitem": "归属",
-      "text": "我不太愿意做可能让自己被孤立的决定。",
+      "text": "我会为了不让他人失望而采用他们的观点",
       "reverse": false
     },
     {
@@ -1028,7 +1028,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q094",
       "dimension": "顺从",
       "subitem": "取悦",
-      "text": "我有时会过度照顾他人感受，避免让别人不舒服。",
+      "text": "我担心别人怎么看我",
       "reverse": false
     },
     {
@@ -1036,7 +1036,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q095",
       "dimension": "顺从",
       "subitem": "取悦",
-      "text": "面对冲突时，我可能会先维持关系，而不是直接处理问题。",
+      "text": "我用迎合的方法来取悦他人",
       "reverse": false
     },
     {
@@ -1044,7 +1044,7 @@ const QUESTION_BANK: QuestionBank = {
       "code": "Q096",
       "dimension": "顺从",
       "subitem": "取悦",
-      "text": "我有时会为了让气氛和谐而降低标准或边界。",
+      "text": "我有时会为了让气氛和谐而降低标准或边界",
       "reverse": false
     }
   ]
