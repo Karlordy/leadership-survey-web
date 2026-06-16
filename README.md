@@ -66,6 +66,19 @@ supabase functions deploy submit-survey
 
 不要把 `SUPABASE_SERVICE_ROLE_KEY` 放进前端或 GitHub。
 
+### GitHub Actions Deploy
+
+如果本机 `npx supabase functions deploy submit-survey` 卡住，可以用 GitHub Actions 部署。
+
+在 GitHub 仓库 `Settings -> Secrets and variables -> Actions` 添加：
+
+```txt
+SUPABASE_ACCESS_TOKEN=<Supabase account access token>
+SUPABASE_PROJECT_ID=cwggwqniwkwepktbuhag
+```
+
+添加后，推送 `supabase/functions/submit-survey/**` 会自动部署，也可以在 GitHub `Actions -> Deploy submit-survey -> Run workflow` 手动触发。
+
 ## Local Test
 
 直接打开或部署静态文件：
