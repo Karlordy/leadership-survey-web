@@ -1,6 +1,6 @@
 // Supabase Edge Function: submit-survey
 // 功能：
-// 1) 校验同一「姓名+公司」最多提交 2 次
+// 1) 校验同一「姓名+公司」默认最多提交 5 次，可由后台额外开放重测次数
 // 2) 后台计算：96题、32子项、7维度、能力最低3、限制最高3、解读文本
 // 3) 写入 public.submissions
 //
@@ -1058,6 +1058,7 @@ const DIMENSIONS: string[] = QUESTION_BANK.dimensions;
 const SCALE_MIN = QUESTION_BANK.scale.min;
 const SCALE_MAX = QUESTION_BANK.scale.max;
 const SCALE_STEP = QUESTION_BANK.scale.step ?? 0.5;
+const MAX_SUBMISSIONS_PER_NAME_COMPANY = 5;
 
 // ===== 维度分组（能力/限制）=====
 const abilityDims = new Set(["成就导向", "系统意识", "自我觉察", "协同赋能"]);
@@ -1122,6 +1123,39 @@ async function supaCount(url: string, serviceKey: string, name: string, company:
   if (!cr) return 0;
   const total = parseInt(cr.split("/")[1] || "0", 10);
   return Number.isFinite(total) ? total : 0;
+}
+
+async function supaRetestAllowance(url: string, serviceKey: string, name: string, company: string) {
+  const nameEnc = encodeURIComponent(name);
+  const compEnc = encodeURIComponent(company);
+
+  const endpoint =
+    `${url.replace(/\/$/, "")}/rest/v1/survey_retest_allowances?select=extra_allowed` +
+    `&real_name=eq.${nameEnc}` +
+    `&company=eq.${compEnc}` +
+    `&is_active=eq.true`;
+
+  const resp = await fetch(endpoint, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${serviceKey}`,
+      apikey: serviceKey,
+      Accept: "application/json",
+    },
+  });
+
+  if (!resp.ok) {
+    console.warn(`retest allowance lookup skipped: ${resp.status} ${await resp.text().catch(() => "")}`);
+    return 0;
+  }
+
+  const rows = await resp.json().catch(() => []);
+  if (!Array.isArray(rows)) return 0;
+
+  return rows.reduce((sum, row) => {
+    const n = Number(row?.extra_allowed || 0);
+    return sum + (Number.isFinite(n) && n > 0 ? n : 0);
+  }, 0);
 }
 
 async function supaInsert(url: string, serviceKey: string, payload: any) {
@@ -1247,10 +1281,19 @@ serve(async (req) => {
       }, 500);
     }
 
-    // 同名+公司最多2次
+    // 同名+公司默认最多 5 次；后台可额外开放重测次数。
     const count = await supaCount(url, serviceKey, realName, company);
-    if (count >= 2) {
-      return jsonRes({ error: "该姓名+公司已提交2次，无法再次提交。请联系教练。" }, 403);
+    const extraAllowed = await supaRetestAllowance(url, serviceKey, realName, company);
+    const maxAllowed = MAX_SUBMISSIONS_PER_NAME_COMPANY + extraAllowed;
+    if (count >= maxAllowed) {
+      return jsonRes({
+        code: "submission_limit_reached",
+        error: `该姓名和公司已提交 ${count} 次，已达到当前上限 ${maxAllowed} 次。如需重新测评，请联系教练或管理员为你开放重测。`,
+        submission_count: count,
+        max_submissions: maxAllowed,
+        base_limit: MAX_SUBMISSIONS_PER_NAME_COMPANY,
+        extra_allowed: extraAllowed,
+      }, 403);
     }
 
     // 后台计算

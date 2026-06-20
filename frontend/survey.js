@@ -207,6 +207,28 @@ async function submit() {
   }
 
   const endpoint = `${url.replace(/\/$/, "")}/functions/v1/${fnName}`;
+  function friendlySubmitError(out, status) {
+    const code = String(out?.code || "");
+    const msg = String(out?.error || "");
+
+    if (code === "submission_limit_reached" || /max submissions limit|已达到当前上限|已提交\d*次|无法再次提交/i.test(msg)) {
+      return "这个姓名和公司已经达到提交次数上限。如需重新测评，请联系教练或管理员为你开放重测。";
+    }
+
+    if (/Invalid score/i.test(msg)) {
+      return "有题目的答案格式异常，请刷新页面后重新检查并提交。";
+    }
+
+    if (/缺少姓名|缺少答案|答案不合法/.test(msg)) {
+      return msg;
+    }
+
+    if (/insert failed|count failed/i.test(msg)) {
+      return "提交暂时失败，请稍后重试；如果多次失败，请联系教练处理。";
+    }
+
+    return msg || `提交失败（${status}），请稍后重试。`;
+  }
   try {
     const resp = await fetch(endpoint, {
       method: "POST",
@@ -226,7 +248,7 @@ async function submit() {
 
     const out = await resp.json().catch(() => ({}));
     if (!resp.ok) {
-      $("submitErr").textContent = (out && out.error) ? out.error : `提交失败（${resp.status}）`;
+      $("submitErr").textContent = friendlySubmitError(out, resp.status);
       return;
     }
 
