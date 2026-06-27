@@ -2,6 +2,7 @@ let DATA = null;
 let ORDERED_QUESTIONS = [];
 let answers = {};
 let page = 0;
+let submitting = false;
 const pageSize = 32;
 
 // ✅ 9档选项：1~5，步长0.5
@@ -52,6 +53,49 @@ function shuffledIds(ids) {
 function orderStorageKey(name, company) {
   const version = DATA?.model_version || "v1";
   return `rt_question_order:${version}:${name}:${company}`;
+}
+
+function submissionKeyStorageKey(name, company) {
+  const version = DATA?.model_version || "v1";
+  return `rt_submission_key:${version}:${name}:${company}`;
+}
+
+function makeClientId() {
+  if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+  const buf = new Uint32Array(4);
+  if (window.crypto?.getRandomValues) {
+    window.crypto.getRandomValues(buf);
+    return Array.from(buf).map((n) => n.toString(16).padStart(8, "0")).join("-");
+  }
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function getOrCreateSubmissionKey(name, company) {
+  const key = submissionKeyStorageKey(name, company);
+  try {
+    const saved = sessionStorage.getItem(key);
+    if (saved) return saved;
+    const next = makeClientId();
+    sessionStorage.setItem(key, next);
+    return next;
+  } catch {
+    return makeClientId();
+  }
+}
+
+function clearSubmissionKey(name, company) {
+  try {
+    sessionStorage.removeItem(submissionKeyStorageKey(name, company));
+  } catch {
+    // ignore
+  }
+}
+
+function setSubmitBusy(isBusy) {
+  const btn = $("submitBtn");
+  if (!btn) return;
+  btn.disabled = isBusy;
+  btn.textContent = isBusy ? "提交中，请勿关闭页面..." : "提交问卷";
 }
 
 function initQuestionOrder(name, company) {
@@ -190,6 +234,11 @@ function jumpToUnanswered() {
 }
 
 async function submit() {
+  if (submitting) {
+    $("submitErr").textContent = "问卷正在提交中，请稍等，不要重复点击。";
+    return;
+  }
+
   $("submitErr").textContent = "";
   const name = norm(sessionStorage.getItem("rt_name"));
   const company = norm(sessionStorage.getItem("rt_company"));
@@ -207,6 +256,7 @@ async function submit() {
   }
 
   const endpoint = `${url.replace(/\/$/, "")}/functions/v1/${fnName}`;
+  const submissionKey = getOrCreateSubmissionKey(name, company);
   function friendlySubmitError(out, status) {
     const code = String(out?.code || "");
     const msg = String(out?.error || "");
@@ -230,6 +280,9 @@ async function submit() {
     return msg || `提交失败（${status}），请稍后重试。`;
   }
   try {
+    submitting = true;
+    setSubmitBusy(true);
+
     const resp = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -240,6 +293,7 @@ async function submit() {
       body: JSON.stringify({
         name,
         company,
+        submission_key: submissionKey,
         answers_raw: answers,     // 包含小数
         questions_version: DATA?.model_version || "v1",
         scale_step: 0.5,
@@ -254,9 +308,13 @@ async function submit() {
 
     sessionStorage.removeItem("rt_name");
     sessionStorage.removeItem("rt_company");
+    clearSubmissionKey(name, company);
     window.location.href = "./done.html";
   } catch (e) {
-    $("submitErr").textContent = "网络或服务异常，请稍后重试。";
+    $("submitErr").textContent = "提交结果暂时无法确认。请不要反复刷新；如果稍后仍停留在本页，可以再次点击提交，系统会自动避免重复记录。";
+  } finally {
+    submitting = false;
+    setSubmitBusy(false);
   }
 }
 

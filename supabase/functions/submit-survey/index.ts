@@ -1158,23 +1158,179 @@ async function supaRetestAllowance(url: string, serviceKey: string, name: string
   }, 0);
 }
 
-async function supaInsert(url: string, serviceKey: string, payload: any) {
-  const endpoint = `${url.replace(/\/$/, "")}/rest/v1/submissions`;
+function stableStringify(value: unknown): string {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map((item) => stableStringify(item)).join(",")}]`;
+
+  const obj = value as Record<string, unknown>;
+  return `{${Object.keys(obj)
+    .sort()
+    .map((key) => `${JSON.stringify(key)}:${stableStringify(obj[key])}`)
+    .join(",")}}`;
+}
+
+async function sha256Hex(text: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function safeFilePart(value: string) {
+  return String(value || "")
+    .replace(/[\\/:*?"<>|]/g, "_")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildReportSnapshot(submission: any, computed: ReturnType<typeof compute>, createdAt?: string) {
+  return {
+    name: submission.name,
+    company: submission.company,
+    submission_created_at: createdAt || null,
+    answers_raw: submission.answers_raw ?? null,
+    answers_adjusted: computed.adjusted,
+    subscores: computed.subscores,
+    dimscores: computed.dimscores,
+    focus_low3: computed.focus_low3,
+    focus_high2: computed.focus_high2,
+    insight_text: computed.insight_text,
+  };
+}
+
+async function getJsonRows(url: string, serviceKey: string, endpointPath: string) {
+  const endpoint = `${url.replace(/\/$/, "")}${endpointPath}`;
+  const resp = await fetch(endpoint, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${serviceKey}`,
+      apikey: serviceKey,
+      Accept: "application/json",
+    },
+  });
+
+  if (!resp.ok) {
+    const text = await resp.text().catch(() => "");
+    throw new Error(`select failed: ${resp.status} ${text}`);
+  }
+
+  const rows = await resp.json().catch(() => []);
+  return Array.isArray(rows) ? rows : [];
+}
+
+async function supaFindExistingSubmission(
+  url: string,
+  serviceKey: string,
+  args: { name: string; company: string; submissionKey?: string; answersHash?: string },
+) {
+  const baseSelect = "select=id,created_at,name,real_name,company";
+
+  if (args.submissionKey) {
+    try {
+      const rows = await getJsonRows(
+        url,
+        serviceKey,
+        `/rest/v1/submissions?${baseSelect}&submission_key=eq.${encodeURIComponent(args.submissionKey)}&limit=1`,
+      );
+      if (rows[0]?.id) return rows[0];
+    } catch (e) {
+      console.warn(`submission_key lookup skipped: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+
+  if (args.answersHash) {
+    try {
+      const rows = await getJsonRows(
+        url,
+        serviceKey,
+        `/rest/v1/submissions?${baseSelect}&company=eq.${encodeURIComponent(args.company)}&answers_hash=eq.${encodeURIComponent(args.answersHash)}&limit=20`,
+      );
+      const hit = rows.find((row) => {
+        const rowName = String(row?.real_name ?? row?.name ?? "").trim();
+        return rowName === args.name;
+      });
+      if (hit?.id) return hit;
+    } catch (e) {
+      console.warn(`answers_hash lookup skipped: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+
+  return null;
+}
+
+async function supaInsertSubmission(url: string, serviceKey: string, payload: any) {
+  const endpoint = `${url.replace(/\/$/, "")}/rest/v1/submissions?select=id,created_at`;
+
+  async function post(body: any) {
+    return await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${serviceKey}`,
+        apikey: serviceKey,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify(body),
+    });
+  }
+
+  let resp = await post(payload);
+  if (!resp.ok) {
+    const text = await resp.text();
+    if (/submission_key|answers_hash|questions_version|scale_step|PGRST204/i.test(text)) {
+      const legacyPayload = { ...payload };
+      delete legacyPayload.submission_key;
+      delete legacyPayload.answers_hash;
+      delete legacyPayload.questions_version;
+      delete legacyPayload.scale_step;
+      resp = await post(legacyPayload);
+      if (!resp.ok) {
+        const retryText = await resp.text();
+        throw new Error(`insert failed: ${resp.status} ${retryText}`);
+      }
+    } else {
+      throw new Error(`insert failed: ${resp.status} ${text}`);
+    }
+  }
+
+  const rows = await resp.json().catch(() => []);
+  const row = Array.isArray(rows) ? rows[0] : null;
+  if (!row?.id) throw new Error("insert failed: missing inserted submission id");
+  return row;
+}
+
+async function supaEnsureReport(url: string, serviceKey: string, payload: any) {
+  try {
+    const rows = await getJsonRows(
+      url,
+      serviceKey,
+      `/rest/v1/reports?select=id&submission_id=eq.${encodeURIComponent(payload.submission_id)}&limit=1`,
+    );
+    if (rows[0]?.id) return rows[0];
+  } catch (e) {
+    console.warn(`report existence lookup skipped: ${e instanceof Error ? e.message : String(e)}`);
+  }
+
+  const endpoint = `${url.replace(/\/$/, "")}/rest/v1/reports?select=id`;
   const resp = await fetch(endpoint, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${serviceKey}`,
       apikey: serviceKey,
       "Content-Type": "application/json",
-      Prefer: "return=minimal",
+      Prefer: "return=representation",
     },
     body: JSON.stringify(payload),
   });
 
   if (!resp.ok) {
     const t = await resp.text();
-    throw new Error(`insert failed: ${resp.status} ${t}`);
+    if (resp.status === 409) return null;
+    throw new Error(`report insert failed: ${resp.status} ${t}`);
   }
+
+  const rows = await resp.json().catch(() => []);
+  return Array.isArray(rows) ? rows[0] : null;
 }
 
 // ===== 计算逻辑 =====
@@ -1282,6 +1438,35 @@ serve(async (req) => {
     }
 
     // 同名+公司默认最多 5 次；后台可额外开放重测次数。
+    const submissionKey = String(body?.submission_key ?? "").trim();
+    const answersHash = await sha256Hex(stableStringify(answers_raw));
+
+    const existingSubmission = await supaFindExistingSubmission(url, serviceKey, {
+      name: realName,
+      company,
+      submissionKey,
+      answersHash,
+    });
+
+    if (existingSubmission?.id) {
+      const computed = compute(answers_raw as Record<string, unknown>);
+      const snapshot = buildReportSnapshot(
+        { name: realName, company, answers_raw },
+        computed,
+        existingSubmission.created_at,
+      );
+      const displayFileName = `${safeFilePart(realName) || "未命名"}-${safeFilePart(company) || "公司"}-领导力测评报告.pdf`;
+      await supaEnsureReport(url, serviceKey, {
+        submission_id: existingSubmission.id,
+        status: "queued",
+        error: null,
+        snapshot,
+        file_name: displayFileName,
+        updated_at: new Date().toISOString(),
+      });
+      return jsonRes({ ok: true, deduped: true, submission_id: existingSubmission.id });
+    }
+
     const count = await supaCount(url, serviceKey, realName, company);
     const extraAllowed = await supaRetestAllowance(url, serviceKey, realName, company);
     const maxAllowed = MAX_SUBMISSIONS_PER_NAME_COMPANY + extraAllowed;
@@ -1312,11 +1497,27 @@ serve(async (req) => {
     focus_low3: computed.focus_low3,
     focus_high2: computed.focus_high2,
     insight_text: computed.insight_text,
+    submission_key: submissionKey || null,
+    answers_hash: answersHash,
+    questions_version: String(body?.questions_version ?? QUESTION_BANK.model_version ?? "v1"),
+    scale_step: Number(body?.scale_step ?? SCALE_STEP),
   };
 
 
-    await supaInsert(url, serviceKey, payload);
-    return jsonRes({ ok: true });
+    const inserted = await supaInsertSubmission(url, serviceKey, payload);
+    const snapshot = buildReportSnapshot(payload, computed, inserted.created_at);
+    const displayFileName = `${safeFilePart(realName) || "未命名"}-${safeFilePart(company) || "公司"}-领导力测评报告.pdf`;
+
+    await supaEnsureReport(url, serviceKey, {
+      submission_id: inserted.id,
+      status: "queued",
+      error: null,
+      snapshot,
+      file_name: displayFileName,
+      updated_at: new Date().toISOString(),
+    });
+
+    return jsonRes({ ok: true, submission_id: inserted.id });
   } catch (e: any) {
     return jsonRes({ error: "提交失败：" + (e?.message ?? String(e)) }, 500);
   }
